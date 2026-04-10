@@ -1,17 +1,27 @@
-<div class="login-page">
-  <div class="login-card">
-    <h1>🔒 Admin</h1>
-    <form [formGroup]="form" (ngSubmit)="login()">
-      <label for="username">
-        Usuario
-        <input id="username" formControlName="username" type="text" autocomplete="username" />
-      </label>
-      <label for="password">
-        Contraseña
-        <input id="password" formControlName="password" type="password" autocomplete="current-password" />
-      </label>
-      <div *ngIf="error" class="error">{{ error }}</div>
-      <button type="submit" [disabled]="form.invalid">Iniciar sesión</button>
-    </form>
-  </div>
+﻿<div class="login-page">
+  <mat-card class="login-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title><mat-icon>lock</mat-icon> Admin</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="username" autocomplete="username" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" type="password" autocomplete="current-password" />
+        </mat-form-field>
+
+        <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+        <button mat-raised-button color="primary" type="submit" class="full-width"
+          [disabled]="form.invalid">
+          Iniciar sesión
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

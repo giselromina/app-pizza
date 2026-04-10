@@ -1,16 +1,10 @@
 @use './styles/variables' as v;
 
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.5rem;
-  background: v.$green;
-  color: v.$white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 0;
   z-index: 100;
+  background: v.$green !important;
 
   .brand {
     display: flex;
@@ -23,53 +17,28 @@
     .brand-text { font-size: 1.3rem; font-weight: 800; }
   }
 
-  .nav-links {
-    display: flex;
-    gap: 1.25rem;
-    align-items: center;
+  .spacer { flex: 1; }
 
-    a {
-      color: rgba(255, 255, 255, 0.85);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      padding: 0.4rem 0.75rem;
-      border-radius: 8px;
-      transition: all 0.2s;
+  a[mat-button], a[mat-raised-button] {
+    color: v.$white;
+    font-weight: 700;
+    font-size: 0.95rem;
 
-      &:hover, &.active {
-        background: rgba(255, 255, 255, 0.15);
-        color: v.$white;
-      }
-    }
+    .nav-label { margin-left: 4px; }
   }
 
-  .cart-link {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: v.$red;
-    border-radius: 10px !important;
-    padding: 0.5rem 1rem !important;
-    color: v.$white !important;
+  a[mat-raised-button] {
+    background: v.$red !important;
+  }
 
-    .badge {
-      background: v.$white;
-      color: v.$red;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  .active-link {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
   }
 }
 
 .main-content {
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 130px);
 }
 
 .app-footer {

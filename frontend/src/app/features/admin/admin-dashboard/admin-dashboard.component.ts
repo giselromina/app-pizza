@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProductService, AuthService } from '../../../core/services';
 import { Product } from '../../../core/models';
 import { CATEGORY_LABELS, ProductCategory } from '../../../core/enums';
@@ -8,7 +14,11 @@ import { CATEGORY_LABELS, ProductCategory } from '../../../core/enums';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [
+    CommonModule, RouterLink,
+    MatCardModule, MatButtonModule, MatIconModule,
+    MatTableModule, MatSlideToggleModule, MatProgressSpinnerModule,
+  ],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss',
 })

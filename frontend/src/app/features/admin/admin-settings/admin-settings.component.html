@@ -1,37 +1,45 @@
-<div class="settings-page">
-  <h1>⚙️ Configuración</h1>
+﻿<div class="settings-page">
+  <h1><mat-icon>settings</mat-icon> Configuración</h1>
 
-  <div *ngIf="saved" class="saved-banner" role="status">✅ Cambios guardados.</div>
+  <div *ngIf="saved" class="saved-banner" role="status">
+    <mat-icon>check_circle</mat-icon> Cambios guardados.
+  </div>
 
-  <form [formGroup]="form" (ngSubmit)="save()" class="settings-form">
-    <label for="restaurant_name">
-      Nombre del restaurante
-      <input id="restaurant_name" formControlName="restaurant_name" type="text" />
-    </label>
+  <mat-card appearance="outlined">
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="save()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre del restaurante</mat-label>
+          <input matInput formControlName="restaurant_name" />
+        </mat-form-field>
 
-    <label for="whatsapp_number">
-      Número de WhatsApp (con código de país, sin +)
-      <input id="whatsapp_number" formControlName="whatsapp_number" type="text" placeholder="5491112345678" />
-    </label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Número de WhatsApp (con código de país, sin +)</mat-label>
+          <input matInput formControlName="whatsapp_number" placeholder="5491112345678" />
+        </mat-form-field>
 
-    <label for="restaurant_address">
-      Dirección
-      <input id="restaurant_address" formControlName="restaurant_address" type="text" />
-    </label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Dirección</mat-label>
+          <input matInput formControlName="restaurant_address" />
+        </mat-form-field>
 
-    <label for="restaurant_hours">
-      Horarios
-      <input id="restaurant_hours" formControlName="restaurant_hours" type="text" />
-    </label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Horarios</mat-label>
+          <input matInput formControlName="restaurant_hours" />
+        </mat-form-field>
 
-    <label for="welcome_message">
-      Mensaje de bienvenida
-      <textarea id="welcome_message" formControlName="welcome_message" rows="3"></textarea>
-    </label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Mensaje de bienvenida</mat-label>
+          <textarea matInput formControlName="welcome_message" rows="3"></textarea>
+        </mat-form-field>
 
-    <div class="form-actions">
-      <button type="submit" class="save-btn">Guardar cambios</button>
-      <a routerLink="/admin" class="cancel-link">Volver al panel</a>
-    </div>
-  </form>
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit">
+            <mat-icon>save</mat-icon> Guardar cambios
+          </button>
+          <a mat-button routerLink="/admin">Volver al panel</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

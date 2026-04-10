@@ -1,3 +1,26 @@
+// Custom Theming for Angular Material
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Italian-themed palette
+$frontend-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$green-palette,
+    tertiary: mat.$red-palette,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+:root {
+  @include mat.all-component-themes($frontend-theme);
+}
+
+@include mat.typography-hierarchy($frontend-theme);
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
 *,
@@ -8,12 +31,10 @@
   padding: 0;
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
+html, body { height: 100%; }
 
 body {
+  margin: 0;
   font-family: 'Inter', system-ui, Arial, sans-serif;
   background: #f5f5f5;
   color: #222;
@@ -27,14 +48,7 @@ a {
   text-decoration: none;
 }
 
-button {
-  font-family: inherit;
-}
-
-h1, h2, h3 {
-  line-height: 1.3;
-}
-
+h1, h2, h3 { line-height: 1.3; }
 h1 { font-size: 1.75rem; }
 h2 { font-size: 1.4rem; }
 h3 { font-size: 1.15rem; }
@@ -43,4 +57,3 @@ img {
   max-width: 100%;
   height: auto;
 }
-

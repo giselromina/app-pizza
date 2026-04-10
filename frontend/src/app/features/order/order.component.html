@@ -1,123 +1,105 @@
-<div class="order-page">
+﻿<div class="order-page">
   <!-- SUCCESS STATE -->
-  <div *ngIf="orderSent" class="success-panel" role="alert">
-    <div class="success-icon">✅</div>
-    <h2>Pedido enviado por WhatsApp</h2>
-    <p class="warning">
-      ⚠️ Esto <strong>NO</strong> es una confirmación de pedido.<br />
-      El restaurante se comunicará con vos para confirmar.
-    </p>
-    <a routerLink="/" class="back-btn">Volver al menú</a>
-  </div>
+  <mat-card *ngIf="orderSent" class="success-panel" appearance="outlined">
+    <mat-card-content>
+      <div class="success-icon">✅</div>
+      <h2>Pedido enviado por WhatsApp</h2>
+      <div class="warning">
+        <mat-icon color="warn">warning</mat-icon>
+        <p>Esto <strong>NO</strong> es una confirmación de pedido.<br/>
+        El restaurante se comunicará con vos para confirmar.</p>
+      </div>
+      <a mat-raised-button color="primary" routerLink="/">
+        <mat-icon>arrow_back</mat-icon> Volver al menú
+      </a>
+    </mat-card-content>
+  </mat-card>
 
   <!-- ORDER FORM -->
   <ng-container *ngIf="!orderSent">
     <h1>Tu Pedido</h1>
 
     <!-- Empty cart -->
-    <div *ngIf="cartService.isEmpty()" class="empty-cart">
-      <span class="big-emoji">🍕</span>
-      <p>Tu carrito está vacío.</p>
-      <a routerLink="/" class="back-btn">Ver el menú</a>
-    </div>
+    <mat-card *ngIf="cartService.isEmpty()" class="empty-cart" appearance="outlined">
+      <mat-card-content>
+        <span class="big-emoji">🍕</span>
+        <p>Tu carrito está vacío.</p>
+        <a mat-raised-button color="primary" routerLink="/">Ver el menú</a>
+      </mat-card-content>
+    </mat-card>
 
     <ng-container *ngIf="!cartService.isEmpty()">
       <!-- Cart items -->
-      <div class="cart-items">
-        <div class="cart-item" *ngFor="let item of cartService.cartItems()">
-          <div class="item-info">
-            <strong>{{ item.product.name }}</strong>
+      <mat-card class="cart-card" appearance="outlined">
+        <mat-card-content>
+          <div class="cart-item" *ngFor="let item of cartService.cartItems(); let last = last">
+            <div class="item-info">
+              <strong>{{ item.product.name }}</strong>
+            </div>
+            <div class="item-controls">
+              <button mat-mini-fab color="primary"
+                (click)="cartService.updateQuantity(item.product.id, item.quantity - 1)"
+                aria-label="Quitar uno">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="qty-value">{{ item.quantity }}</span>
+              <button mat-mini-fab color="primary"
+                (click)="cartService.updateQuantity(item.product.id, item.quantity + 1)"
+                aria-label="Agregar uno">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+            <div class="item-price">${{ item.product.price * item.quantity | number: '1.0-0' }}</div>
+            <button mat-icon-button color="warn"
+              (click)="cartService.remove(item.product.id)"
+              aria-label="Eliminar producto">
+              <mat-icon>close</mat-icon>
+            </button>
           </div>
-          <div class="item-controls">
-            <button
-              type="button"
-              class="qty-btn"
-              (click)="cartService.updateQuantity(item.product.id, item.quantity - 1)"
-              aria-label="Quitar uno"
-            >−</button>
-            <span class="qty-value">{{ item.quantity }}</span>
-            <button
-              type="button"
-              class="qty-btn"
-              (click)="cartService.updateQuantity(item.product.id, item.quantity + 1)"
-              aria-label="Agregar uno"
-            >+</button>
-          </div>
-          <div class="item-price">${{ item.product.price * item.quantity | number: '1.0-0' }}</div>
-          <button
-            type="button"
-            class="remove-btn"
-            (click)="cartService.remove(item.product.id)"
-            aria-label="Eliminar producto"
-          >✕</button>
-        </div>
-      </div>
+        </mat-card-content>
+      </mat-card>
 
       <div class="cart-total">
         Total estimado: <strong>${{ cartService.total() | number: '1.0-0' }}</strong>
       </div>
 
       <!-- Customer form -->
-      <form [formGroup]="form" (ngSubmit)="sendToWhatsapp()" class="customer-form">
-        <h2>Tus datos</h2>
+      <mat-card class="customer-form-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Tus datos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="form" (ngSubmit)="sendToWhatsapp()">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre</mat-label>
+              <input matInput formControlName="customerName" autocomplete="name" />
+              <mat-error>Ingresá tu nombre (mínimo 2 caracteres).</mat-error>
+            </mat-form-field>
 
-        <label for="customerName">
-          Nombre *
-          <input
-            id="customerName"
-            formControlName="customerName"
-            type="text"
-            placeholder="Tu nombre"
-            autocomplete="name"
-          />
-          <span class="field-error" *ngIf="form.get('customerName')?.invalid && form.get('customerName')?.touched">
-            Ingresá tu nombre (mínimo 2 caracteres).
-          </span>
-        </label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Número de WhatsApp</mat-label>
+              <input matInput formControlName="customerPhone" type="tel" placeholder="Ej: 5491130001234" autocomplete="tel" />
+              <mat-error>Para enviar el pedido por la app, es necesario un número de WhatsApp.</mat-error>
+            </mat-form-field>
 
-        <label for="customerPhone">
-          Número de WhatsApp *
-          <input
-            id="customerPhone"
-            formControlName="customerPhone"
-            type="tel"
-            placeholder="Ej: 5491130001234"
-            autocomplete="tel"
-          />
-          <span class="field-error" *ngIf="form.get('customerPhone')?.invalid && form.get('customerPhone')?.touched">
-            Para enviar el pedido por la app, es necesario un número de WhatsApp. Si no tenés, podés llamar al restaurante.
-          </span>
-        </label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Dirección (opcional)</mat-label>
+              <input matInput formControlName="address" autocomplete="street-address" />
+            </mat-form-field>
 
-        <label for="address">
-          Dirección (opcional)
-          <input
-            id="address"
-            formControlName="address"
-            type="text"
-            placeholder="Calle y número"
-            autocomplete="street-address"
-          />
-        </label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Comentarios (opcional)</mat-label>
+              <textarea matInput formControlName="comments" rows="3"
+                placeholder="Ej: Sin cebolla, timbre 3B..."></textarea>
+            </mat-form-field>
 
-        <label for="comments">
-          Comentarios (opcional)
-          <textarea
-            id="comments"
-            formControlName="comments"
-            placeholder="Ej: Sin cebolla, timbre 3B..."
-            rows="3"
-          ></textarea>
-        </label>
-
-        <button
-          type="submit"
-          class="send-btn"
-          [disabled]="form.invalid || cartService.isEmpty()"
-        >
-          📲 Enviar pedido por WhatsApp
-        </button>
-      </form>
+            <button mat-raised-button color="primary" type="submit" class="send-btn"
+              [disabled]="form.invalid || cartService.isEmpty()">
+              <mat-icon>send</mat-icon> Enviar pedido por WhatsApp
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
     </ng-container>
   </ng-container>
 </div>

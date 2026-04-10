@@ -1,16 +1,23 @@
-﻿<nav class="navbar" role="navigation" aria-label="Main navigation">
-  <a class="brand" routerLink="/menu">
+﻿<mat-toolbar color="primary" class="navbar">
+  <a routerLink="/menu" class="brand">
     <span class="brand-icon">🍕</span>
     <span class="brand-text">La Pizza Italiana</span>
   </a>
-  <div class="nav-links">
-    <a routerLink="/menu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">Menú</a>
-    <a routerLink="/order" routerLinkActive="active" class="cart-link">
-      🛒 Pedido
-      <span class="badge" *ngIf="cartCount() > 0">{{ cartCount() }}</span>
-    </a>
-  </div>
-</nav>
+
+  <span class="spacer"></span>
+
+  <a mat-button routerLink="/menu" routerLinkActive="active-link"
+     [routerLinkActiveOptions]="{ exact: false }">
+    <mat-icon>restaurant_menu</mat-icon>
+    <span class="nav-label">Menú</span>
+  </a>
+
+  <a mat-raised-button color="warn" routerLink="/order" routerLinkActive="active-link"
+     [matBadge]="cartCount()" [matBadgeHidden]="cartCount() === 0" matBadgeColor="accent">
+    <mat-icon>shopping_cart</mat-icon>
+    <span class="nav-label">Pedido</span>
+  </a>
+</mat-toolbar>
 
 <main class="main-content">
   <router-outlet />
