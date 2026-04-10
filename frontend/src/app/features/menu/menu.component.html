@@ -1,0 +1,56 @@
+<div class="menu-page">
+  <!-- Header info -->
+  <header class="restaurant-header" *ngIf="settings">
+    <h1>{{ settings.restaurantName }}</h1>
+    <p class="welcome" *ngIf="settings.welcomeMessage">{{ settings.welcomeMessage }}</p>
+    <div class="info-row">
+      <span *ngIf="settings.restaurantAddress">📍 {{ settings.restaurantAddress }}</span>
+      <span *ngIf="settings.restaurantHours">🕐 {{ settings.restaurantHours }}</span>
+    </div>
+  </header>
+
+  <div *ngIf="loading" class="loading" role="status">
+    <p>Cargando menú...</p>
+  </div>
+
+  <div *ngIf="error" class="error-banner" role="alert">{{ error }}</div>
+
+  <!-- Menu categories -->
+  <section *ngFor="let cat of categories" class="category-section">
+    <h2 class="category-title">{{ getCategoryLabel(cat) }}</h2>
+    <div class="products-grid">
+      <article class="product-card" *ngFor="let product of menu[cat]">
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <p class="description">{{ product.description }}</p>
+          <span class="price">${{ product.price | number: '1.0-0' }}</span>
+        </div>
+        <div class="product-actions">
+          <div class="quantity-controls" *ngIf="getQuantityInCart(product.id) > 0">
+            <button
+              class="qty-btn"
+              (click)="removeFromCart(product.id)"
+              aria-label="Quitar uno"
+              type="button"
+            >−</button>
+            <span class="qty-value">{{ getQuantityInCart(product.id) }}</span>
+            <button
+              class="qty-btn"
+              (click)="addToCart(product)"
+              aria-label="Agregar uno más"
+              type="button"
+            >+</button>
+          </div>
+          <button
+            *ngIf="getQuantityInCart(product.id) === 0"
+            class="add-btn"
+            (click)="addToCart(product)"
+            type="button"
+          >
+            Agregar
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>

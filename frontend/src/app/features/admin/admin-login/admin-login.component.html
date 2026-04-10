@@ -1,0 +1,17 @@
+<div class="login-page">
+  <div class="login-card">
+    <h1>🔒 Admin</h1>
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <label for="username">
+        Usuario
+        <input id="username" formControlName="username" type="text" autocomplete="username" />
+      </label>
+      <label for="password">
+        Contraseña
+        <input id="password" formControlName="password" type="password" autocomplete="current-password" />
+      </label>
+      <div *ngIf="error" class="error">{{ error }}</div>
+      <button type="submit" [disabled]="form.invalid">Iniciar sesión</button>
+    </form>
+  </div>
+</div>

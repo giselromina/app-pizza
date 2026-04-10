@@ -1,0 +1,166 @@
+@use '../../styles/variables' as v;
+
+.menu-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.restaurant-header {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  margin-bottom: 1.5rem;
+  background: v.$white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  h1 {
+    color: v.$red;
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .welcome {
+    color: v.$green;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-row {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    color: #555;
+  }
+}
+
+.category-section {
+  margin-bottom: 2rem;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  color: v.$green;
+  border-bottom: 3px solid v.$green;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.products-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.product-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: v.$white;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .product-info {
+    flex: 1;
+
+    h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.2rem;
+      color: #222;
+    }
+
+    .description {
+      font-size: 0.95rem;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 0.3rem;
+    }
+
+    .price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: v.$red;
+    }
+  }
+
+  .product-actions {
+    flex-shrink: 0;
+  }
+}
+
+.add-btn {
+  padding: 0.65rem 1.5rem;
+  background: v.$green;
+  color: v.$white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 120px;
+
+  &:hover {
+    background: darken(v.$green, 8%);
+  }
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  .qty-btn {
+    width: 44px;
+    height: 44px;
+    border: 2px solid v.$green;
+    background: v.$white;
+    color: v.$green;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    &:hover {
+      background: v.$green;
+      color: v.$white;
+    }
+  }
+
+  .qty-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    min-width: 28px;
+    text-align: center;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  font-size: 1.1rem;
+  color: #888;
+}
+
+.error-banner {
+  text-align: center;
+  background: #fdedec;
+  color: v.$red;
+  padding: 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+}

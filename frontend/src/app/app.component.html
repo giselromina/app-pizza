@@ -1,0 +1,21 @@
+﻿<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <a class="brand" routerLink="/menu">
+    <span class="brand-icon">🍕</span>
+    <span class="brand-text">La Pizza Italiana</span>
+  </a>
+  <div class="nav-links">
+    <a routerLink="/menu" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }">Menú</a>
+    <a routerLink="/order" routerLinkActive="active" class="cart-link">
+      🛒 Pedido
+      <span class="badge" *ngIf="cartCount() > 0">{{ cartCount() }}</span>
+    </a>
+  </div>
+</nav>
+
+<main class="main-content">
+  <router-outlet />
+</main>
+
+<footer class="app-footer">
+  <a routerLink="/admin/login" class="admin-link">Admin</a>
+</footer>

@@ -1,0 +1,48 @@
+<div class="admin-dashboard">
+  <div class="admin-header">
+    <h1>Panel de Administración</h1>
+    <div class="header-actions">
+      <a routerLink="/admin/products/new" class="action-btn primary">+ Nuevo producto</a>
+      <a routerLink="/admin/settings" class="action-btn secondary">⚙️ Configuración</a>
+      <button class="action-btn danger" (click)="logout()" type="button">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">Cargando...</div>
+
+  <table class="products-table" *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products" [class.disabled]="!product.available">
+        <td>
+          <strong>{{ product.name }}</strong>
+          <span class="desc">{{ product.description }}</span>
+        </td>
+        <td>{{ getCategoryLabel(product.category) }}</td>
+        <td class="price">${{ product.price | number: '1.0-0' }}</td>
+        <td>
+          <button
+            class="toggle-btn"
+            [class.active]="product.available"
+            (click)="toggleAvailability(product)"
+            type="button"
+          >
+            {{ product.available ? 'Activo' : 'Inactivo' }}
+          </button>
+        </td>
+        <td class="actions-cell">
+          <a [routerLink]="['/admin/products/edit', product.id]" class="edit-link">Editar</a>
+          <button class="delete-link" (click)="deleteProduct(product)" type="button">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

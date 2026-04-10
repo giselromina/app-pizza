@@ -1,0 +1,44 @@
+<div class="form-page">
+  <h1>{{ isEdit ? 'Editar Producto' : 'Nuevo Producto' }}</h1>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="product-form">
+    <label for="name">
+      Nombre *
+      <input id="name" formControlName="name" type="text" />
+    </label>
+
+    <label for="description">
+      Descripción
+      <textarea id="description" formControlName="description" rows="3"></textarea>
+    </label>
+
+    <label for="price">
+      Precio *
+      <input id="price" formControlName="price" type="number" min="0" step="10" />
+    </label>
+
+    <label for="category">
+      Categoría *
+      <select id="category" formControlName="category">
+        <option *ngFor="let cat of categories" [value]="cat[0]">{{ cat[1] }}</option>
+      </select>
+    </label>
+
+    <label for="image">
+      URL de imagen (opcional)
+      <input id="image" formControlName="image" type="url" placeholder="https://..." />
+    </label>
+
+    <label for="sort_order">
+      Orden
+      <input id="sort_order" formControlName="sort_order" type="number" min="0" />
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="save-btn" [disabled]="form.invalid">
+        {{ isEdit ? 'Guardar cambios' : 'Crear producto' }}
+      </button>
+      <a routerLink="/admin" class="cancel-link">Cancelar</a>
+    </div>
+  </form>
+</div>

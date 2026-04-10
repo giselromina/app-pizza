@@ -1,0 +1,37 @@
+<div class="settings-page">
+  <h1>⚙️ Configuración</h1>
+
+  <div *ngIf="saved" class="saved-banner" role="status">✅ Cambios guardados.</div>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="settings-form">
+    <label for="restaurant_name">
+      Nombre del restaurante
+      <input id="restaurant_name" formControlName="restaurant_name" type="text" />
+    </label>
+
+    <label for="whatsapp_number">
+      Número de WhatsApp (con código de país, sin +)
+      <input id="whatsapp_number" formControlName="whatsapp_number" type="text" placeholder="5491112345678" />
+    </label>
+
+    <label for="restaurant_address">
+      Dirección
+      <input id="restaurant_address" formControlName="restaurant_address" type="text" />
+    </label>
+
+    <label for="restaurant_hours">
+      Horarios
+      <input id="restaurant_hours" formControlName="restaurant_hours" type="text" />
+    </label>
+
+    <label for="welcome_message">
+      Mensaje de bienvenida
+      <textarea id="welcome_message" formControlName="welcome_message" rows="3"></textarea>
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="save-btn">Guardar cambios</button>
+      <a routerLink="/admin" class="cancel-link">Volver al panel</a>
+    </div>
+  </form>
+</div>
