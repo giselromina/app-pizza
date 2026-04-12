@@ -23,4 +23,9 @@ router.delete('/products/:id', (req, res, next) => productController.delete(req,
 router.get('/settings', (req, res, next) => settingsController.getAll(req, res, next));
 router.put('/settings', (req, res, next) => settingsController.update(req, res, next));
 
+// Admin: categories
+router.get('/categories', (req, res, next) => productController.getCategories(req, res, next));
+router.post('/categories', (req, res, next) => productController.createCategory(req, res, next));
+router.delete('/categories/:name', (req, res, next) => productController.deleteCategory(req, res, next));
+
 export default router;

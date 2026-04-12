@@ -1,0 +1,107 @@
+<div class="admin-menu">
+  <div class="page-header">
+    <div class="header-left">
+      <a mat-icon-button routerLink="/admin" matTooltip="Volver al panel">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <h1>Gestión de Menú</h1>
+    </div>
+    <div class="header-actions">
+      <button mat-stroked-button color="primary" type="button" (click)="openNewCategory()">
+        <mat-icon>create_new_folder</mat-icon> Nueva categoría
+      </button>
+      <button mat-raised-button color="primary" type="button" (click)="openCreate()">
+        <mat-icon>add</mat-icon> Nuevo producto
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <mat-tab-group *ngIf="categories.length > 0" animationDuration="200ms">
+      <mat-tab *ngFor="let cat of categories" [label]="cat | titlecase">
+        <div class="tab-actions">
+          <button mat-stroked-button color="primary" type="button" (click)="openCreate(cat)">
+            <mat-icon>add</mat-icon> Agregar en {{ cat | titlecase }}
+          </button>
+        </div>
+
+        <div *ngIf="!grouped[cat] || grouped[cat].length === 0" class="empty-category">
+          <p>Sin productos en esta categoría.</p>
+        </div>
+
+        <div class="products-grid">
+          <mat-card
+            *ngFor="let product of grouped[cat]"
+            class="product-card"
+            [class.inactive]="!product.available"
+            appearance="outlined"
+          >
+            <mat-card-header>
+              <mat-card-title>{{ product.name }}</mat-card-title>
+              <mat-card-subtitle class="price">
+                ${{ product.price | number: '1.0-0' }}
+              </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p class="description">{{ product.description || '—' }}</p>
+
+              <div class="stats-row">
+                <span class="stat">
+                  <mat-icon class="stat-icon">inventory_2</mat-icon>
+                  Stock: <strong>{{ stockLabel(product.stock) }}</strong>
+                </span>
+                <span class="stat">
+                  <mat-icon class="stat-icon">trending_up</mat-icon>
+                  Vendidos: <strong>{{ product.sales }}</strong>
+                </span>
+              </div>
+
+              <span class="status-chip" [class.available]="product.available">
+                {{ product.available ? 'Disponible' : 'No disponible' }}
+              </span>
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+              <button
+                mat-icon-button
+                color="primary"
+                type="button"
+                (click)="openEdit(product)"
+                matTooltip="Editar"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                type="button"
+                (click)="delete(product)"
+                matTooltip="Eliminar"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div *ngIf="categories.length === 0" class="empty-state">
+      <mat-icon>restaurant_menu</mat-icon>
+      <p>No hay productos ni categorías todavía.</p>
+      <div class="empty-actions">
+        <button mat-stroked-button color="primary" type="button" (click)="openNewCategory()">
+          <mat-icon>create_new_folder</mat-icon> Nueva categoría
+        </button>
+        <button mat-raised-button color="primary" type="button" (click)="openCreate()">
+          <mat-icon>add</mat-icon> Agregar primer producto
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

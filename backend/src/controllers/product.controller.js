@@ -51,6 +51,40 @@ export class ProductController {
       res.json({ message: 'Producto eliminado.' });
     } catch (err) { next(err); }
   }
+
+  /** POST /api/order - Public: register a sale (decrement stock, increment sales) */
+  recordOrder(req, res, next) {
+    try {
+      const { items } = req.body;
+      productService.recordSale(items);
+      res.json({ message: 'Venta registrada.' });
+    } catch (err) { next(err); }
+  }
+
+  /** GET /api/admin/categories */
+  getCategories(req, res, next) {
+    try {
+      res.json(productService.getCategories());
+    } catch (err) { next(err); }
+  }
+
+  /** POST /api/admin/categories */
+  createCategory(req, res, next) {
+    try {
+      const { name } = req.body;
+      productService.createCategory(name);
+      res.status(201).json({ name: name.trim().toUpperCase() });
+    } catch (err) { next(err); }
+  }
+
+  /** DELETE /api/admin/categories/:name */
+  deleteCategory(req, res, next) {
+    try {
+      const result = productService.deleteCategory(req.params.name);
+      if (!result.ok) return res.status(400).json({ message: result.reason });
+      res.json({ message: 'Categoría eliminada.' });
+    } catch (err) { next(err); }
+  }
 }
 
 export const productController = new ProductController();

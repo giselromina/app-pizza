@@ -9,13 +9,44 @@
   <a mat-button routerLink="/menu" routerLinkActive="active-link"
      [routerLinkActiveOptions]="{ exact: false }">
     <mat-icon>restaurant_menu</mat-icon>
-    <span class="nav-label">Menú</span>
+    <span class="nav-label">Carta</span>
   </a>
 
   <a mat-raised-button color="warn" routerLink="/order" routerLinkActive="active-link"
      [matBadge]="cartCount()" [matBadgeHidden]="cartCount() === 0" matBadgeColor="accent">
     <mat-icon>shopping_cart</mat-icon>
     <span class="nav-label">Pedido</span>
+  </a>
+
+  <ng-container *ngIf="isAdmin()">
+    <button mat-button [matMenuTriggerFor]="adminMenu" class="admin-panel-btn">
+      <mat-icon>menu</mat-icon>
+      <span class="nav-label">Menu Configuraciones</span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #adminMenu="matMenu">
+      <a mat-menu-item routerLink="/admin/menu">
+        <mat-icon>edit</mat-icon>
+        <span>Editar</span>
+      </a>
+      <a mat-menu-item routerLink="/admin">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a mat-menu-item routerLink="/admin/settings">
+        <mat-icon>settings</mat-icon>
+        <span>Editar presentacion</span>
+      </a>
+    </mat-menu>
+
+    <button mat-icon-button (click)="authService.logout()" matTooltip="Cerrar sesión" class="admin-btn">
+      <mat-icon>person</mat-icon>
+    </button>
+  </ng-container>
+
+  <a *ngIf="!isAdmin()" mat-icon-button routerLink="/admin/login" matTooltip="Iniciar sesión" class="admin-btn">
+    <mat-icon>person_outline</mat-icon>
   </a>
 </mat-toolbar>
 

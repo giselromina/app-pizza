@@ -25,6 +25,10 @@
     font-size: 0.95rem;
 
     .nav-label { margin-left: 4px; }
+
+    & + a {
+      margin-left: 2rem;
+    }
   }
 
   a[mat-raised-button] {
@@ -34,6 +38,24 @@
   .active-link {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 8px;
+  }
+
+  .admin-btn {
+    color: v.$white;
+    opacity: 0.75;
+    margin-left: 1rem;
+
+    &:hover { opacity: 1; }
+  }
+
+  .admin-panel-btn {
+    color: v.$white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2px;
   }
 }
 

@@ -21,9 +21,10 @@ import { AuthService } from '../../../core/services';
 })
 export class AdminLoginComponent {
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
 
   error = '';
+  showPassword = false;
   form = this.fb.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
@@ -33,5 +34,9 @@ export class AdminLoginComponent {
     if (this.form.invalid) return;
     const { username, password } = this.form.value;
     this.authService.login(username!, password!);
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
   }
 }

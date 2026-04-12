@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { CartService, SettingsService, WhatsappService } from '../../core/services';
+import { CartService, SettingsService, WhatsappService, ProductService } from '../../core/services';
 import { AppSettings } from '../../core/models';
 
 @Component({
@@ -27,6 +27,7 @@ export class OrderComponent implements OnInit {
   cartService = inject(CartService);
   private settingsService = inject(SettingsService);
   private whatsappService = inject(WhatsappService);
+  private productService = inject(ProductService);
 
   settings: AppSettings | null = null;
   orderSent = false;
@@ -60,6 +61,11 @@ export class OrderComponent implements OnInit {
     );
 
     this.whatsappService.openWhatsapp(url);
+
+    // Register the sale: decrement stock, increment sales
+    const items = this.cartService.cartItems().map(i => ({ id: i.product.id, quantity: i.quantity }));
+    this.productService.recordOrder(items).subscribe({ error: () => {} });
+
     this.orderSent = true;
     this.cartService.clear();
     this.form.reset();

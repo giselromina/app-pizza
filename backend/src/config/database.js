@@ -44,6 +44,14 @@ db.exec(`
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL
   );
+
+  CREATE TABLE IF NOT EXISTS categories (
+    name TEXT PRIMARY KEY
+  );
 `);
+
+// Migrations: add stock/sales columns if they don't exist yet
+try { db.exec(`ALTER TABLE products ADD COLUMN stock INTEGER NOT NULL DEFAULT -1`); } catch (_) {}
+try { db.exec(`ALTER TABLE products ADD COLUMN sales INTEGER NOT NULL DEFAULT 0`); } catch (_) {}
 
 export default db;

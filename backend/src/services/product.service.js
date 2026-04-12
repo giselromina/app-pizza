@@ -1,5 +1,5 @@
 import { productRepository } from '../repositories/product.repository.js';
-import { PRODUCT_CATEGORIES } from '../enums/index.js';
+import { categoryRepository } from '../repositories/category.repository.js';
 
 export class ProductService {
   getMenuForCustomers() {
@@ -32,6 +32,27 @@ export class ProductService {
     return productRepository.delete(id);
   }
 
+  recordSale(items) {
+    if (!Array.isArray(items) || items.length === 0) throw new ValidationError('Items inválidos.');
+    for (const item of items) {
+      if (!item.id || !item.quantity || item.quantity < 1) throw new ValidationError('Cada item debe tener id y quantity >= 1.');
+    }
+    productRepository.recordSale(items);
+  }
+
+  getCategories() {
+    return categoryRepository.getMerged();
+  }
+
+  createCategory(name) {
+    if (!name?.trim()) throw new ValidationError('El nombre de la categoría es obligatorio.');
+    return categoryRepository.create(name);
+  }
+
+  deleteCategory(name) {
+    return categoryRepository.delete(name);
+  }
+
   #groupByCategory(products) {
     const grouped = {};
     for (const p of products) {
@@ -48,8 +69,8 @@ export class ProductService {
   }
 
   #validateCategory(category) {
-    if (!PRODUCT_CATEGORIES.includes(category)) {
-      throw new ValidationError(`Categoría inválida. Opciones: ${PRODUCT_CATEGORIES.join(', ')}`);
+    if (!category || typeof category !== 'string' || !category.trim()) {
+      throw new ValidationError('La categoría es obligatoria.');
     }
   }
 }

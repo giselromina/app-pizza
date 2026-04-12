@@ -35,4 +35,22 @@ export class ProductService {
   delete(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.url}/admin/products/${id}`);
   }
+
+  /** Public: record a sale (stock decrement + sales increment) */
+  recordOrder(items: { id: number; quantity: number }[]): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.url}/order`, { items });
+  }
+
+  /** Admin: categories */
+  getCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.url}/admin/categories`);
+  }
+
+  createCategory(name: string): Observable<{ name: string }> {
+    return this.http.post<{ name: string }>(`${this.url}/admin/categories`, { name });
+  }
+
+  deleteCategory(name: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.url}/admin/categories/${name}`);
+  }
 }

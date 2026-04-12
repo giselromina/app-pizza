@@ -17,11 +17,11 @@ export class ProductRepository {
     return db.prepare('SELECT * FROM products WHERE category = ? AND available = 1 ORDER BY sort_order ASC').all(category);
   }
 
-  create({ name, description, price, category, image, available, sort_order }) {
+  create({ name, description, price, category, image, available, sort_order, stock }) {
     const result = db.prepare(`
-      INSERT INTO products (name, description, price, category, image, available, sort_order)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(name, description || '', price, category, image || '', available ?? 1, sort_order ?? 0);
+      INSERT INTO products (name, description, price, category, image, available, sort_order, stock)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(name, description || '', price, category, image || '', available ?? 1, sort_order ?? 0, stock ?? -1);
     return this.getById(result.lastInsertRowid);
   }
 
@@ -33,13 +33,30 @@ export class ProductRepository {
     db.prepare(`
       UPDATE products
       SET name = ?, description = ?, price = ?, category = ?, image = ?,
-          available = ?, sort_order = ?, updated_at = ?
+          available = ?, sort_order = ?, stock = ?, sales = ?, updated_at = ?
       WHERE id = ?
     `).run(
       merged.name, merged.description, merged.price, merged.category,
-      merged.image, merged.available, merged.sort_order, merged.updated_at, id
+      merged.image, merged.available, merged.sort_order,
+      merged.stock ?? -1, merged.sales ?? 0, merged.updated_at, id
     );
     return this.getById(id);
+  }
+
+  recordSale(items) {
+    const stmt = db.prepare(`
+      UPDATE products
+      SET sales = sales + ?,
+          stock = CASE WHEN stock = -1 THEN -1 ELSE MAX(0, stock - ?) END,
+          updated_at = datetime('now')
+      WHERE id = ?
+    `);
+    const run = db.transaction((list) => {
+      for (const { id, quantity } of list) {
+        stmt.run(quantity, quantity, id);
+      }
+    });
+    run(items);
   }
 
   delete(id) {

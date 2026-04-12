@@ -9,6 +9,8 @@ export interface Product {
   image: string;
   available: number; // 1 or 0 from SQLite
   sort_order: number;
+  stock: number;   // -1 = unlimited
+  sales: number;
   created_at: string;
   updated_at: string;
 }

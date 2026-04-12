@@ -52,5 +52,13 @@ export const routes: Routes = [
         './features/admin/admin-settings/admin-settings.component'
       ).then((m) => m.AdminSettingsComponent),
   },
+  {
+    path: 'admin/menu',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/admin/admin-menu/admin-menu.component').then(
+        (m) => m.AdminMenuComponent
+      ),
+  },
   { path: '**', redirectTo: 'menu' },
 ];

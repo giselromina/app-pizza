@@ -1,5 +1,6 @@
 export const ProductCategory = Object.freeze({
   PIZZA: 'PIZZA',
+  SANDWICH: 'SANDWICH',
   DRINK: 'DRINK',
   DESSERT: 'DESSERT',
   EXTRA: 'EXTRA',
