@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { noAuthGuard } from './core/guards/no-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'menu', pathMatch: 'full' },
+  { path: '', redirectTo: 'admin/login', pathMatch: 'full' },
   {
     path: 'menu',
     loadComponent: () =>
@@ -15,6 +16,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin/login',
+    canActivate: [noAuthGuard],
     loadComponent: () =>
       import('./features/admin/admin-login/admin-login.component').then(
         (m) => m.AdminLoginComponent
